@@ -13,7 +13,7 @@ import com.opensoft.SpringBootMVC.Entity.Student;
 public class StudentService {
 
 	@Autowired
-	@Qualifier("fakeData")
+	@Qualifier("firebird")
 	private StudentDao studentDao;
 
 	public Collection<Student> getAllStudents() {
