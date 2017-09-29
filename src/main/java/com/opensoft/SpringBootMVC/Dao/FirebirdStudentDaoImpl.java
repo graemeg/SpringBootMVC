@@ -20,27 +20,31 @@ public class FirebirdStudentDaoImpl implements StudentDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
+	final RowMapper<Student> rowMapper = new RowMapper<Student>() {
+
+		@Override
+		public Student mapRow(ResultSet resultSet, int i) throws SQLException {
+			Student student = new Student();
+			student.setId(resultSet.getInt("id"));
+			student.setName(resultSet.getString("name"));
+			student.setCourse(resultSet.getString("course"));
+			return student;
+		}
+
+	};
+
 	@Override
 	public Collection<Student> getAllStudents() {
-		final String sql = "SELECT id, name, course FROM students";
-		final List<Student> studentList = jdbcTemplate.query(sql, new RowMapper<Student>() {
-
-			@Override
-			public Student mapRow(ResultSet resultSet, int i) throws SQLException {
-				Student student = new Student();
-				student.setId(resultSet.getInt("id"));
-				student.setName(resultSet.getString("name"));
-				student.setCourse(resultSet.getString("course"));
-				return student;
-			}
-
-		});
+		final String sql = "select id, name, course from students";
+		final List<Student> studentList = jdbcTemplate.query(sql, rowMapper);
 		return studentList;
 	}
 
 	@Override
 	public Student getStudentById(int id) {
-		return null;
+		final String sql = "select id, name, course from students where id = ?";
+		Student s = jdbcTemplate.queryForObject(sql, rowMapper, id);
+		return s;
 	}
 
 	@Override
