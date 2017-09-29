@@ -17,12 +17,8 @@ import com.opensoft.SpringBootMVC.Entity.Student;
 @Qualifier("firebird")
 public class FirebirdStudentDaoImpl implements StudentDao {
 
-	private JdbcTemplate jdbcTemplate;
-
 	@Autowired
-	public FirebirdStudentDaoImpl(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
+	private JdbcTemplate jdbcTemplate;
 
 	@Override
 	public Collection<Student> getAllStudents() {
