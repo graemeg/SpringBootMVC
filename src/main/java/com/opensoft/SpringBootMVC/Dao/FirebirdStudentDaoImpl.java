@@ -49,17 +49,27 @@ public class FirebirdStudentDaoImpl implements StudentDao {
 
 	@Override
 	public void deleteStudentById(int id) {
-
+		jdbcTemplate.update("delete from students where id = ?", id);
 	}
 
 	@Override
 	public void updateStudent(Student student) {
-
+		final String sql = "update students set name = ?, course = ? where id = ?";
+		int id = student.getId();
+		String name = student.getName();
+		String course = student.getCourse();
+		jdbcTemplate.update(sql, new Object[] { name, course, id });
 	}
 
 	@Override
 	public void insertStudent(Student student) {
-
+		final String sql = "insert into students (id, name, course) values (?, ?, ?)"; // we don't use a auto-increment
+																						// field in our test Firebird
+																						// database
+		int id = student.getId();
+		String name = student.getName();
+		String course = student.getCourse();
+		jdbcTemplate.update(sql, new Object[] { id, name, course });
 	}
 
 }
